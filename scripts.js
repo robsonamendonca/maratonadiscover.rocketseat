@@ -214,9 +214,9 @@ const DOM = {
 const Utils = {
 
     formatAmount(value){
-        value = Number(value.replace(/\,\./g,""))*100;
+        value =  value *100;
         //console.log('Utils.formatAmount: '+value);
-        return value;
+        return Math.round(value);
     },
 
     formatDate(date){
