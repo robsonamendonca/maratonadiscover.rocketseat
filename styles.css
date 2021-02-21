@@ -166,11 +166,12 @@ header {
   overflow-x: auto;
 }
 
-#transaction h3 {
+#transaction a h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 #data-table {
   width: 100%;
   border-spacing: 0 0.5rem;

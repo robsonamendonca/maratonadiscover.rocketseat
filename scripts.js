@@ -39,8 +39,8 @@ const Modal = {
             text: "Você não poderá reverter isso!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#49aa26',
+            cancelButtonColor: '#e92929',
             confirmButtonText: 'Sim, exclua!'
           }).then((result) => {
             if (result.isConfirmed) {
@@ -48,11 +48,13 @@ const Modal = {
                 Transaction.all.splice(index,1);
                 App.reload();
 
-              Swal.fire(
-                'Excluída!',
-                'Sua transação foi excluída.',
-                'success'
-              )
+              Swal.fire({
+                title: 'Excluída!',
+                text: "Sua transação foi excluída.",
+                icon: 'success',
+                confirmButtonColor: '#49aa26',
+                confirmButtonText: 'Ok'
+              })
             }
           })
     },
@@ -173,12 +175,12 @@ const DOM = {
         const amount = Utils.formatCurrency(transation.amount);
 
         const html = `
-            <td class="description">${transation.description}</td>
+            <td class="description date">
+            ${transation.date} - ${transation.description}
+            </td>
             <td class="${CSSclass}">${amount}</td>
-            <td class="date">${transation.date}</td>
-            <td>
-               <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="remover transação">
-            </td>    
+            <td class="del"><span><img class="remove" onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="remover transação"></span>&nbsp;</td>
+            
         `;
         return html;
     },
