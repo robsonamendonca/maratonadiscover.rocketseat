@@ -264,7 +264,8 @@ td.expense {
   margin-top: 0;
 }
 
-input {
+input,
+select {
   border: none;
   border-radius: 0.2rem;
 

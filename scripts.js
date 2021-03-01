@@ -14,7 +14,7 @@ const Modal = {
             .classList.remove('active');
     },
 
-    SweetAlert2Sucess(message){
+    SweetAlert2Sucess(message) {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -22,18 +22,18 @@ const Modal = {
             timer: 3000,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
-          })
-          
-          Toast.fire({
+        })
+
+        Toast.fire({
             icon: 'success',
             title: message
-          })
+        })
     },
 
-    SweetAlert2ConfirmRemove(index){
+    SweetAlert2ConfirmRemove(index) {
         Swal.fire({
             title: 'Tem certeza?',
             text: "Você não poderá reverter isso!",
@@ -42,41 +42,41 @@ const Modal = {
             confirmButtonColor: '#49aa26',
             cancelButtonColor: '#e92929',
             confirmButtonText: 'Sim, exclua!'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
 
-                Transaction.all.splice(index,1);
+                Transaction.all.splice(index, 1);
                 App.reload();
 
-              Swal.fire({
-                title: 'Excluída!',
-                text: "Sua transação foi excluída.",
-                icon: 'success',
-                confirmButtonColor: '#49aa26',
-                confirmButtonText: 'Ok'
-              })
+                Swal.fire({
+                    title: 'Excluída!',
+                    text: "Sua transação foi excluída.",
+                    icon: 'success',
+                    confirmButtonColor: '#49aa26',
+                    confirmButtonText: 'Ok'
+                })
             }
-          })
+        })
     },
 
-    SweetAlert2Error(message){
+    SweetAlert2Error(message) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: message,
             footer: 'Verifique e tente novamente!'
-          })
+        })
     }
 }
 
 
 const Storage = {
-    get(){
+    get() {
         return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
     },
     set(transactions) {
         localStorage.setItem("dev.finances:transactions",
-         JSON.stringify(transactions))
+            JSON.stringify(transactions))
     }
 }
 
@@ -84,22 +84,26 @@ const transations = [
     {
         description: 'Luz',
         amount: -50001,
-        date: '23/01/2021'
+        date: '23/01/2021',
+        signal: "-"
     },
     {
         description: 'Website',
         amount: 500000,
-        date: '23/01/2021'
+        date: '23/01/2021',
+        signal: "+"
     },
     {
         description: 'Internet',
         amount: -20012,
-        date: '23/01/2021'
+        date: '23/01/2021',
+        signal: "-"
     },
     {
         description: 'App',
         amount: 200000,
-        date: '23/01/2021'
+        date: '23/01/2021',
+        signal: "+"
     }
 ]
 
@@ -118,7 +122,7 @@ const Transaction = {
     }
     ,
     remove(index) {
-       Modal.SweetAlert2ConfirmRemove(index);
+        Modal.SweetAlert2ConfirmRemove(index);
     }
     ,
 
@@ -168,7 +172,7 @@ const DOM = {
         DOM.transationContainer.appendChild(tr);
     },
 
-    innerHTMLTransaction(transation,index) {
+    innerHTMLTransaction(transation, index) {
 
         const CSSclass = transation.amount > 0 ? "income" : "expense";
 
@@ -196,16 +200,16 @@ const DOM = {
         document
             .getElementById('totalDisplay')
             .innerHTML = Utils.formatCurrency(Transaction.total());
-        
-            if(Transaction.total()<0){
-                document
+
+        if (Transaction.total() < 0) {
+            document
                 .querySelector('.total')
                 .classList.add('less');
-            }else{
-                document
+        } else {
+            document
                 .querySelector('.total')
                 .classList.remove('less');
-            }
+        }
     },
 
     clearTransactions() {
@@ -215,20 +219,23 @@ const DOM = {
 
 const Utils = {
 
-    formatAmount(value){
-        value =  value *100;
-        //console.log('Utils.formatAmount: '+value);
+    formatAmount(value, signal) {
+        if (signal === "-") {
+            value = value * 100 * -1;
+        } else {
+            value = value * 100;
+        }
+        console.log('Utils.formatAmount: ' + value);
         return Math.round(value);
     },
 
-    formatDate(date){
+    formatDate(date) {
         const splittedDate = date.split("-");
         return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`;
     },
 
     formatCurrency(value) {
-        const signal = Number(value) < 0 ? "-" : "";
-
+        let signal = Number(value) < 0 ? "-" : "";
         value = String(value).replace(/\D/g, "");
 
         value = Number(value) / 100;
@@ -243,22 +250,25 @@ const Utils = {
 }
 
 const Form = {
+
     description: document.querySelector('input#description'),
     amount: document.querySelector('input#amount'),
     date: document.querySelector('input#date'),
+    signal: document.querySelector('select#signal'),
 
     getValues() {
         return {
             description: Form.description.value,
             amount: Form.amount.value,
-            date: Form.date.value
+            date: Form.date.value,
+            signal: Form.signal.value
         }
     },
 
-    formatValues(){
-        let {description, amount, date} = Form.getValues();
-        amount = Utils.formatAmount(amount);
-        //console.log('Form.formatValues: '+amount);
+    formatValues() {
+        let { description, amount, date, signal } = Form.getValues();
+        amount = Utils.formatAmount(amount, signal);
+        console.log('Form.formatValues: ' + signal);
         date = Utils.formatDate(date);
 
         return {
@@ -268,27 +278,28 @@ const Form = {
         }
     },
 
-    validateFields(){
-        const {description, amount, date} = Form.getValues();
-        if (description.trim() === "" || amount.trim() ==="" || date.trim() === ""){
+    validateFields() {
+        const { description, amount, date, signal } = Form.getValues();
+        if (description.trim() === "" || amount.trim() === "" || date.trim() === "" || signal.trim() === "") {
             throw new Error("Por favor, preencha todos os campos")
         }
-        //console.log(amount);
+        console.log(`tipo: ${signal}`);
     },
-    saveTransaction(transaction){
+    saveTransaction(transaction) {
         Transaction.add(transaction)
     },
-    clearFields(){
+    clearFields() {
         Form.description.value = "";
         Form.amount.value = "";
         Form.date.value = "";
+        Form.signal.value = "";
     },
 
-    submit(event){
+    submit(event) {
         event.preventDefault();
-        try{
+        try {
             Form.validateFields();
-            const transaction = Form.formatValues();               
+            const transaction = Form.formatValues();
 
             Form.saveTransaction(transaction);
 
@@ -296,11 +307,12 @@ const Form = {
             Modal.close();
             Modal.SweetAlert2Sucess('Transação adicionada com sucesso!')
 
-        }catch (error){
+        } catch (error) {
+            console.log(error);
             Modal.SweetAlert2Error(error.message);
         }
 
-  
+
     }
 }
 
@@ -309,7 +321,7 @@ const App = {
     init() {
         Transaction.all.forEach(
             function (transaction, index) {
-                DOM.addTransaction(transaction,index);
+                DOM.addTransaction(transaction, index);
             }
         )
 

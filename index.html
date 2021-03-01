@@ -12,25 +12,27 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap"
         rel="stylesheet">
 
-        <meta itemProp="name" content="dev.finance$ - Rocketseat" />
-        <meta itemProp="description" content="Orgulhosamente criado durante a Maratona Discover da Rocketseat." />
-        <meta itemProp="image" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/assets/total.png" />
+    <meta itemProp="name" content="dev.finance$ - Rocketseat" />
+    <meta itemProp="description" content="Orgulhosamente criado durante a Maratona Discover da Rocketseat." />
+    <meta itemProp="image" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/assets/total.png" />
 
-        
-        <meta name="twitter:card" content="Maratona Discover da Rocketseat" />
-        <meta name="twitter:site" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/" />
-        <meta name="twitter:title" content="dev.finance$ - Rocketseat" />
-        <meta name="twitter:description" content="Orgulhosamente criado durante a Maratona Discover da Rocketseat." />
-        <meta name="twitter:creator" content="@robsonamendonca" />
-        <meta name="twitter:image" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/assets/total.png" />
 
-        
-        <meta property="og:title" content="dev.finance$ - Rocketseat" />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/" />
-        <meta property="og:image" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/assets/total.png" />
-        <meta property="og:description" content="Orgulhosamente criado durante a Maratona Discover da Rocketseat." />
-        <meta property="og:site_name" content="dev.finance$ - Rocketseat" />
+    <meta name="twitter:card" content="Maratona Discover da Rocketseat" />
+    <meta name="twitter:site" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/" />
+    <meta name="twitter:title" content="dev.finance$ - Rocketseat" />
+    <meta name="twitter:description" content="Orgulhosamente criado durante a Maratona Discover da Rocketseat." />
+    <meta name="twitter:creator" content="@robsonamendonca" />
+    <meta name="twitter:image"
+        content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/assets/total.png" />
+
+
+    <meta property="og:title" content="dev.finance$ - Rocketseat" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/" />
+    <meta property="og:image"
+        content="https://robsonamendonca.github.io/maratonadiscover.rocketseat/assets/total.png" />
+    <meta property="og:description" content="Orgulhosamente criado durante a Maratona Discover da Rocketseat." />
+    <meta property="og:site_name" content="dev.finance$ - Rocketseat" />
 
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -102,8 +104,14 @@
                     <div class="input-group">
                         <label for="amount" class="sr-only">Valor</label>
                         <input type="number" step="0.01" id="amount" name="amount" placeholder="0,00" required />
-                        <small class="help">Use o sinal - (negativo) para despesas e (,) virgula para casas
-                            decimais</small>
+                        <small class="help">
+                            <label for="signal" class="sr-only">Tipo:</label>
+                            <select id="signal" name="signal" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="+">[ + ] Adicionar Entrada</option>
+                                <option value="-">[ - ] Registrar Saida</option>
+                            </select>
+                        </small>
                     </div>
                     <div class="input-group">
                         <label for="date" class="sr-only">Data</label>
